@@ -1,12 +1,17 @@
 package ru.spbpu.tails.shelter;
 
 import java.security.Principal;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import ru.spbpu.tails.common.entity.Animal;
+import ru.spbpu.tails.common.entity.AnimalStatus;
 import ru.spbpu.tails.common.entity.District;
 import ru.spbpu.tails.common.entity.Shelter;
+import ru.spbpu.tails.common.entity.Species;
+import ru.spbpu.tails.common.repository.AnimalRepository;
 import ru.spbpu.tails.common.repository.DistrictRepository;
 import ru.spbpu.tails.common.repository.ShelterRepository;
 
@@ -15,12 +20,15 @@ public class ShelterService {
 
     private final ShelterRepository shelterRepository;
     private final DistrictRepository districtRepository;
+    private final AnimalRepository animalRepository;
 
     public ShelterService(
             ShelterRepository shelterRepository,
-            DistrictRepository districtRepository) {
+            DistrictRepository districtRepository,
+            AnimalRepository animalRepository) {
         this.shelterRepository = shelterRepository;
         this.districtRepository = districtRepository;
+        this.animalRepository = animalRepository;
     }
 
     @Transactional(readOnly = true)
@@ -51,6 +59,39 @@ public class ShelterService {
         shelter.setPhone(phone);
 
         return toProfile(shelter);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ShelterPetResponse> getPets(
+            Principal principal,
+            AnimalStatus status,
+            Species species) {
+        Shelter shelter = getShelter(principal);
+        AnimalStatus selectedStatus = status == null ? AnimalStatus.AVAILABLE : status;
+
+        List<Animal> animals = species == null
+                ? animalRepository.findShelterPetsByStatus(
+                        shelter.getId(), selectedStatus)
+                : animalRepository.findShelterPetsByStatusAndSpecies(
+                        shelter.getId(), selectedStatus, species);
+
+        return animals.stream()
+                .map(animal -> new ShelterPetResponse(
+                        animal.getId(),
+                        animal.getPhotos().stream()
+                                .filter(photo -> photo.isMain())
+                                .map(photo -> photo.getObjectKey())
+                                .findFirst()
+                                .orElse(null),
+                        animal.getSpecies(),
+                        animal.getSpeciesOther(),
+                        animal.getName(),
+                        animal.getBirthMonth(),
+                        animal.getBirthYear(),
+                        animal.getGender(),
+                        animal.getBreed(),
+                        animal.getStatus()))
+                .toList();
     }
 
     private Shelter getShelter(Principal principal) {
