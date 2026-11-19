@@ -10,6 +10,7 @@ public record ShelterPetResponse(
         Species species,
         String speciesOther,
         String name,
+        String age,
         Short birthMonth,
         Short birthYear,
         Gender gender,
