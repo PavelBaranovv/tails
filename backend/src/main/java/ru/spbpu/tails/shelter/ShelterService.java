@@ -1,6 +1,8 @@
 package ru.spbpu.tails.shelter;
 
 import java.security.Principal;
+import java.time.YearMonth;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -86,12 +88,67 @@ public class ShelterService {
                         animal.getSpecies(),
                         animal.getSpeciesOther(),
                         animal.getName(),
+                        getAge(animal),
                         animal.getBirthMonth(),
                         animal.getBirthYear(),
                         animal.getGender(),
                         animal.getBreed(),
                         animal.getStatus()))
                 .toList();
+    }
+
+    private String getAge(Animal animal) {
+        Short birthYear = animal.getBirthYear();
+        if (birthYear == null) {
+            return "Возраст неизвестен";
+        }
+
+        YearMonth currentMonth = YearMonth.now();
+        Short birthMonth = animal.getBirthMonth();
+        if (birthMonth == null) {
+            int years = currentMonth.getYear() - birthYear;
+            return years < 0 ? "Возраст неизвестен" : years + " " + yearWord(years);
+        }
+
+        long totalMonths = ChronoUnit.MONTHS.between(
+                YearMonth.of(birthYear, birthMonth), currentMonth);
+        if (totalMonths < 0) {
+            return "Возраст неизвестен";
+        }
+
+        int years = (int) (totalMonths / 12);
+        int months = (int) (totalMonths % 12);
+        if (years == 0) {
+            return months + " " + monthWord(months);
+        }
+        if (months == 0) {
+            return years + " " + yearWord(years);
+        }
+        return years + " " + yearWord(years) + " " + months + " " + monthWord(months);
+    }
+
+    private String yearWord(int years) {
+        int lastTwoDigits = years % 100;
+        if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
+            return "лет";
+        }
+        return switch (years % 10) {
+            case 1 -> "год";
+            case 2, 3, 4 -> "года";
+            default -> "лет";
+        };
+    }
+
+    private String monthWord(int months) {
+        int lastTwoDigits = months % 100;
+        if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
+            return "месяцев";
+        }
+        return switch (months % 10) {
+            case 1 -> "месяц";
+            case 2, 3, 4 -> "месяца";
+            default -> "месяцев";
+        };
     }
 
     private Shelter getShelter(Principal principal) {
