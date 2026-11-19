@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: tails
+      POSTGRES_USER: tails
+      POSTGRES_PASSWORD: tails
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tails -d tails"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/tails
+      SPRING_DATASOURCE_USERNAME: tails
+      SPRING_DATASOURCE_PASSWORD: tails
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres-data:
