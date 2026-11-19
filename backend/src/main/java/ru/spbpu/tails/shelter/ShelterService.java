@@ -8,11 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import ru.spbpu.tails.common.entity.AdoptionApplication;
+import ru.spbpu.tails.common.entity.ApplicationStatus;
 import ru.spbpu.tails.common.entity.Animal;
 import ru.spbpu.tails.common.entity.AnimalStatus;
 import ru.spbpu.tails.common.entity.District;
 import ru.spbpu.tails.common.entity.Shelter;
 import ru.spbpu.tails.common.entity.Species;
+import ru.spbpu.tails.common.repository.ApplicationRepository;
 import ru.spbpu.tails.common.repository.AnimalRepository;
 import ru.spbpu.tails.common.repository.DistrictRepository;
 import ru.spbpu.tails.common.repository.ShelterRepository;
@@ -23,14 +26,17 @@ public class ShelterService {
     private final ShelterRepository shelterRepository;
     private final DistrictRepository districtRepository;
     private final AnimalRepository animalRepository;
+    private final ApplicationRepository applicationRepository;
 
     public ShelterService(
             ShelterRepository shelterRepository,
             DistrictRepository districtRepository,
-            AnimalRepository animalRepository) {
+            AnimalRepository animalRepository,
+            ApplicationRepository applicationRepository) {
         this.shelterRepository = shelterRepository;
         this.districtRepository = districtRepository;
         this.animalRepository = animalRepository;
+        this.applicationRepository = applicationRepository;
     }
 
     @Transactional(readOnly = true)
@@ -94,6 +100,27 @@ public class ShelterService {
                         animal.getGender(),
                         animal.getBreed(),
                         animal.getStatus()))
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<ShelterApplicationResponse> getApplications(
+            Principal principal,
+            ApplicationStatus status) {
+        Shelter shelter = getShelter(principal);
+
+        List<AdoptionApplication> applications = status == null
+                ? applicationRepository.findShelterApplications(shelter.getId())
+                : applicationRepository.findShelterApplicationsByStatus(shelter.getId(), status);
+
+        return applications.stream()
+                .map(application -> new ShelterApplicationResponse(
+                        application.getId(),
+                        application.getStatus(),
+                        application.getApplicantName(),
+                        application.getApplicantPhone(),
+                        application.getAnimal().getId(),
+                        application.getAnimal().getName()))
                 .toList();
     }
 
