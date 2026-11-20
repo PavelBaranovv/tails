@@ -1,5 +1,6 @@
 package ru.spbpu.tails.animal.dto;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,18 +21,19 @@ public class AnimalResponse {
 
     private String otherSpecies;
 
-    private String breed;
-
     private Gender gender;
 
     private Short birthMonth;
 
     private Short birthYear;
 
+    private String breed;
+
     private String description;
 
     private AnimalStatus status;
 
-    private Long shelterId;
-}
+    private List<AnimalPhotoResponse> photos;
 
+    private ShelterResponse shelter;
+}
