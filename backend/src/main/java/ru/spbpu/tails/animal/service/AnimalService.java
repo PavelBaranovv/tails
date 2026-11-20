@@ -2,6 +2,7 @@ package ru.spbpu.tails.animal.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,8 @@ import ru.spbpu.tails.animal.dto.AnimalSummaryResponse;
 import ru.spbpu.tails.animal.dto.AnimalResponse;
 import ru.spbpu.tails.animal.dto.ShelterResponse;
 import ru.spbpu.tails.common.entity.Animal;
+import ru.spbpu.tails.common.entity.AnimalStatus;
+import ru.spbpu.tails.common.entity.Species;
 import ru.spbpu.tails.common.repository.AnimalRepository;
 
 @Service
@@ -18,14 +21,29 @@ public class AnimalService {
 
     private final AnimalRepository animalRepository;
 
-    public Page<AnimalSummaryResponse> getAnimals(int page, int size) {
+    public Page<AnimalSummaryResponse> getAnimals(
+            @Nullable String district,
+            @Nullable Species species,
+            @Nullable Integer minAge,
+            @Nullable Integer maxAge,
+            @Nullable AnimalStatus status,
+            int page,
+            int size
+    ) {
         if (page < 1 || size < 1) {
             throw new IllegalArgumentException("Page and size must be greater than 0");
         }
 
+        if (district != null && district.isBlank()) {
+            district = null;
+        } else if (district != null) {
+            district = district.trim();
+        }
+
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        return animalRepository.findAll(pageable).map(this::toSummaryResponse);
+        return animalRepository.findAllWithFilters(district, species, status, minAge, maxAge, pageable)
+                .map(this::toSummaryResponse);
     }
 
     public AnimalResponse getAnimalById(Long id) {

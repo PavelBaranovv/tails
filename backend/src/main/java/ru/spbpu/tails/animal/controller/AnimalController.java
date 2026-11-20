@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.spbpu.tails.animal.dto.AnimalSummaryResponse;
 import ru.spbpu.tails.animal.dto.AnimalResponse;
 import ru.spbpu.tails.animal.service.AnimalService;
+import ru.spbpu.tails.common.entity.AnimalStatus;
+import ru.spbpu.tails.common.entity.Species;
 
 @RestController
 @RequestMapping("/api/v1/animals")
@@ -16,9 +18,16 @@ public class AnimalController {
     private final AnimalService animalService;
 
     @GetMapping
-    public Page<AnimalSummaryResponse> getAnimals(@RequestParam(defaultValue = "1") int page,
-                                                  @RequestParam(defaultValue = "10") int size) {
-        return animalService.getAnimals(page, size);
+    public Page<AnimalSummaryResponse> getAnimals(
+            @RequestParam(required = false) String district,
+            @RequestParam(required = false) Species species,
+            @RequestParam(required = false) Integer minAge,
+            @RequestParam(required = false) Integer maxAge,
+            @RequestParam(required = false) AnimalStatus status,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return animalService.getAnimals(district, species, minAge, maxAge, status, page, size);
     }
 
     @GetMapping("/{animalId}")
