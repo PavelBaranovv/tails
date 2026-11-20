@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.spbpu.tails.animal.dto.AnimalSummaryResponse;
 import ru.spbpu.tails.animal.dto.AnimalResponse;
+import ru.spbpu.tails.animal.dto.ShelterResponse;
 import ru.spbpu.tails.common.entity.Animal;
 import ru.spbpu.tails.common.repository.AnimalRepository;
 
@@ -63,16 +64,29 @@ public class AnimalService {
         response.setName(animal.getName());
         response.setSpecies(animal.getSpecies());
         response.setOtherSpecies(animal.getSpeciesOther());
-        response.setBreed(animal.getBreed());
         response.setGender(animal.getGender());
         response.setBirthMonth(animal.getBirthMonth());
         response.setBirthYear(animal.getBirthYear());
+        response.setBreed(animal.getBreed());
         response.setDescription(animal.getDescription());
         response.setStatus(animal.getStatus());
 
         if (animal.getShelter() != null) {
-            response.setShelterId(animal.getShelter().getId());
+            ShelterResponse shelterResponse = new ShelterResponse();
+            shelterResponse.setId(animal.getShelter().getId());
+            shelterResponse.setName(animal.getShelter().getName());
+            shelterResponse.setPhone(animal.getShelter().getPhone());
+            shelterResponse.setAddress(animal.getShelter().getAddress());
+
+            if (animal.getShelter().getDistrict() != null) {
+                shelterResponse.setDistrict(animal.getShelter().getDistrict().getName());
+            }
+
+            response.setShelter(shelterResponse);
         }
+
+        //TODO photos
+        response.setPhotos(java.util.Collections.emptyList());
 
         return response;
     }
