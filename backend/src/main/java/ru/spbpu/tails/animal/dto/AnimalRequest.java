@@ -1,4 +1,3 @@
-
 package ru.spbpu.tails.animal.dto;
 
 import jakarta.validation.constraints.Max;
@@ -31,7 +30,7 @@ public class AnimalRequest {
     @Size(max = 64)
     private String breed;
 
-    private Gender sex;
+    private Gender gender;
 
     @Min(1)
     @Max(12)

@@ -22,7 +22,7 @@ public class AnimalResponse {
 
     private String breed;
 
-    private Gender sex;
+    private Gender gender;
 
     private Short birthMonth;
 
