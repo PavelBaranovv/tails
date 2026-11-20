@@ -1,6 +1,9 @@
 package ru.spbpu.tails.application;
 
+import java.security.Principal;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,5 +25,13 @@ public class ApplicationController {
     public CreateApplicationResponse createApplication(
             @RequestBody CreateApplicationRequest request) {
         return applicationService.createApplication(request);
+    }
+
+    @PatchMapping("/{applicationId}/status")
+    public UpdateApplicationStatusResponse changeStatus(
+            Principal principal,
+            @PathVariable Long applicationId,
+            @RequestBody UpdateApplicationStatusRequest request) {
+        return applicationService.changeStatus(principal, applicationId, request);
     }
 }

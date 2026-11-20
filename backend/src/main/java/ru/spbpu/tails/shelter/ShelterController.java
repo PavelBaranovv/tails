@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.spbpu.tails.application.ApplicationResponse;
 import ru.spbpu.tails.common.entity.ApplicationStatus;
 import ru.spbpu.tails.common.entity.AnimalStatus;
 import ru.spbpu.tails.common.entity.Species;
@@ -43,7 +44,7 @@ public class ShelterController {
     }
 
     @GetMapping("/applications")
-    public List<ShelterApplicationResponse> getApplications(
+    public List<ApplicationResponse> getApplications(
             Principal principal,
             @RequestParam(required = false) ApplicationStatus status) {
         return shelterService.getApplications(principal, status);

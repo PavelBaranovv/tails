@@ -1,8 +1,8 @@
-package ru.spbpu.tails.shelter;
+package ru.spbpu.tails.application;
 
 import ru.spbpu.tails.common.entity.ApplicationStatus;
 
-public record ShelterApplicationResponse(
+public record ApplicationResponse(
         Long id,
         ApplicationStatus status,
         String applicantName,
