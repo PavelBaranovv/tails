@@ -10,8 +10,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -58,6 +61,9 @@ public class Animal {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private AnimalStatus status;
+
+    @OneToMany(mappedBy = "animal", fetch = FetchType.LAZY)
+    private List<AnimalPhoto> photos = new ArrayList<>();
 
     @Column(nullable = false, insertable = false, updatable = false)
     private LocalDateTime createdAt;
