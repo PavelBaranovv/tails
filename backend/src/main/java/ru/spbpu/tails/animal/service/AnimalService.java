@@ -47,8 +47,12 @@ public class AnimalService {
 
         if (animal.getShelter() != null) {
             response.setShelterId(animal.getShelter().getId());
+            response.setShelterName(animal.getShelter().getName());
+            if (animal.getShelter().getDistrict() != null) {
+                response.setDistrict(animal.getShelter().getDistrict().getName());
+            }
         }
-
+        //TODO photoUrl
         return response;
     }
 
