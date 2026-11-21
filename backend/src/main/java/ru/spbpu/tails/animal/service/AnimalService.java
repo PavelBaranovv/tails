@@ -121,11 +121,7 @@ public class AnimalService {
 
         // TODO: После реализации авторизации получать приют из данных текущего авторизованного пользователя.
         Shelter shelter = shelterRepository.findById(shelterId)
-                .orElseThrow(() ->
-                        new EntityNotFoundException(
-                                "Shelter with id " + shelterId + " not found"
-                        )
-                );
+                .orElseThrow(() -> new EntityNotFoundException("Shelter with id " + shelterId + " not found"));
 
         Animal animal = new Animal();
 
@@ -150,11 +146,7 @@ public class AnimalService {
     public AnimalResponse updateAnimal(Long animalId, AnimalRequest request) {
 
         Animal animal = animalRepository.findById(animalId)
-                .orElseThrow(() ->
-                        new EntityNotFoundException(
-                                "Animal with id " + animalId + " not found"
-                        )
-                );
+                .orElseThrow(() -> new EntityNotFoundException("Animal with id " + animalId + " not found"));
 
         // TODO: После реализации авторизации проверить, что животное принадлежит приюту текущего пользователя
 
@@ -170,5 +162,17 @@ public class AnimalService {
         Animal updatedAnimal = animalRepository.save(animal);
 
         return toResponse(updatedAnimal);
+    }
+
+    @Transactional
+    public void deleteAnimal(Long animalId) {
+
+        Animal animal = animalRepository.findById(animalId)
+                .orElseThrow(() -> new EntityNotFoundException("Animal with id " + animalId + " not found"));
+
+        // TODO: После реализации авторизации проверить, что животное принадлежит приюту текущего пользователя
+        // 403 Forbidden — нет прав на удаление
+
+        animalRepository.delete(animal);
     }
 }
