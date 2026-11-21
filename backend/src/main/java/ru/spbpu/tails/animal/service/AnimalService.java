@@ -8,10 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.spbpu.tails.animal.dto.AnimalRequest;
-import ru.spbpu.tails.animal.dto.AnimalSummaryResponse;
-import ru.spbpu.tails.animal.dto.AnimalResponse;
-import ru.spbpu.tails.animal.dto.ShelterResponse;
+import ru.spbpu.tails.animal.dto.*;
 import ru.spbpu.tails.common.entity.Animal;
 import ru.spbpu.tails.common.entity.AnimalStatus;
 import ru.spbpu.tails.common.entity.Shelter;
@@ -174,5 +171,20 @@ public class AnimalService {
         // 403 Forbidden — нет прав на удаление
 
         animalRepository.delete(animal);
+    }
+
+    @Transactional
+    public AnimalResponse updateAnimalStatus(Long animalId, AnimalStatusRequest request) {
+
+        Animal animal = animalRepository.findById(animalId)
+                .orElseThrow(() -> new EntityNotFoundException("Animal with id " + animalId + " not found"));
+
+        // TODO: После реализации авторизации проверить, что животное принадлежит приюту текущего пользователя
+
+        animal.setStatus(request.getStatus());
+
+        Animal updatedAnimal = animalRepository.save(animal);
+
+        return toResponse(updatedAnimal);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import ru.spbpu.tails.animal.dto.AnimalRequest;
+import ru.spbpu.tails.animal.dto.AnimalStatusRequest;
 import ru.spbpu.tails.animal.dto.AnimalSummaryResponse;
 import ru.spbpu.tails.animal.dto.AnimalResponse;
 import ru.spbpu.tails.animal.service.AnimalService;
@@ -62,5 +63,13 @@ public class AnimalController {
     public ResponseEntity<Void> deleteAnimal(@PathVariable Long animalId) {
         animalService.deleteAnimal(animalId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{animalId}/status")
+    public AnimalResponse updateAnimalStatus(
+            @PathVariable Long animalId,
+            @Valid @RequestBody AnimalStatusRequest request
+    ) {
+        return animalService.updateAnimalStatus(animalId, request);
     }
 }
