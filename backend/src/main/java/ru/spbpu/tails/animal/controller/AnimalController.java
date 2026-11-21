@@ -1,9 +1,13 @@
 package ru.spbpu.tails.animal.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import ru.spbpu.tails.animal.dto.AnimalRequest;
 import ru.spbpu.tails.animal.dto.AnimalSummaryResponse;
 import ru.spbpu.tails.animal.dto.AnimalResponse;
 import ru.spbpu.tails.animal.service.AnimalService;
@@ -33,5 +37,16 @@ public class AnimalController {
     @GetMapping("/{animalId}")
     public AnimalResponse getAnimalById(@PathVariable Long animalId) {
         return animalService.getAnimalById(animalId);
+    }
+
+    @PostMapping
+    public ResponseEntity<AnimalResponse> createAnimal(
+            @Valid @RequestBody AnimalRequest request,
+            // TODO: Удалить shelterId после реализации авторизации
+            @RequestParam Long shelterId
+    ) {
+        AnimalResponse response = animalService.createAnimal(request, shelterId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

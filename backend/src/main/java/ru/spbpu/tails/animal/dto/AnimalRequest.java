@@ -1,16 +1,14 @@
 package ru.spbpu.tails.animal.dto;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import ru.spbpu.tails.common.entity.Gender;
 import ru.spbpu.tails.common.entity.Species;
+
+import java.time.Year;
 
 @Getter
 @Setter
@@ -27,7 +25,7 @@ public class AnimalRequest {
     @Size(max = 64)
     private String otherSpecies;
 
-    @Size(max = 64)
+    @Size(min = 2, max = 64)
     private String breed;
 
     private Gender gender;
@@ -40,4 +38,31 @@ public class AnimalRequest {
 
     @Size(min = 8, max = 1024)
     private String description;
+
+    @AssertTrue(message = "Birth month and year must be specified together")
+    public boolean isBirthDateComplete() {
+        return (birthMonth == null && birthYear == null)
+                || (birthMonth != null && birthYear != null);
+    }
+
+    @AssertTrue(message = "Birth year must be between current year minus 200 and current year")
+    public boolean isBirthYearValid() {
+        if (birthYear == null) {
+            return true;
+        }
+
+        int currentYear = Year.now().getValue();
+
+        return birthYear >= currentYear - 200
+                && birthYear <= currentYear;
+    }
+
+    @AssertTrue(message = "Other species must be specified when species is OTHER")
+    public boolean isOtherSpeciesValid() {
+        if (species == Species.OTHER) {
+            return otherSpecies != null && !otherSpecies.isBlank();
+        }
+
+        return true;
+    }
 }
