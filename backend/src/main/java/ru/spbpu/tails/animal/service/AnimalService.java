@@ -144,4 +144,31 @@ public class AnimalService {
 
         return toResponse(savedAnimal);
     }
+
+
+    @Transactional
+    public AnimalResponse updateAnimal(Long animalId, AnimalRequest request) {
+
+        Animal animal = animalRepository.findById(animalId)
+                .orElseThrow(() ->
+                        new EntityNotFoundException(
+                                "Animal with id " + animalId + " not found"
+                        )
+                );
+
+        // TODO: После реализации авторизации проверить, что животное принадлежит приюту текущего пользователя
+
+        animal.setName(request.getName());
+        animal.setSpecies(request.getSpecies());
+        animal.setSpeciesOther(request.getOtherSpecies());
+        animal.setBreed(request.getBreed());
+        animal.setGender(request.getGender());
+        animal.setBirthMonth(request.getBirthMonth());
+        animal.setBirthYear(request.getBirthYear());
+        animal.setDescription(request.getDescription());
+
+        Animal updatedAnimal = animalRepository.save(animal);
+
+        return toResponse(updatedAnimal);
+    }
 }
