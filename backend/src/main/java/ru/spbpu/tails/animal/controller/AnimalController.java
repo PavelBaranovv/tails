@@ -49,4 +49,12 @@ public class AnimalController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @PutMapping("/{animalId}")
+    public AnimalResponse updateAnimal(
+            @PathVariable Long animalId,
+            @Valid @RequestBody AnimalRequest request
+    ) {
+        return animalService.updateAnimal(animalId, request);
+    }
 }
