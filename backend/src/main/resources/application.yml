@@ -13,3 +13,11 @@ spring:
 jwt:
   secret: "g/7wRAfvk1pHLIsisr0tM8wMNdOp8lD1+si0um/yLuljUQPLPw8B0/B2TrsAUWtz"
   expiration-ms: 86400000
+
+resilience4j:
+  ratelimiter:
+    instances:
+      loginLimiter:
+        limitForPeriod: 5
+        limitRefreshPeriod: 1m
+        timeoutDuration: 0
