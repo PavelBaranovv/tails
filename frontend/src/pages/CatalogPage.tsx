@@ -29,6 +29,9 @@ function CatalogPage() {
     <main className="catalog">
       <header className="catalog__header">
         <h1>Хвостики</h1>
+        <Link className="catalog__login" to="/login">
+          Вход для приюта
+        </Link>
       </header>
       <form className="catalog__filters" onSubmit={(event) => event.preventDefault()}>
         <label>

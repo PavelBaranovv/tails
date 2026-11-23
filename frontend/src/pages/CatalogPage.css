@@ -4,9 +4,25 @@
   padding: 24px 16px 48px;
 }
 
+.catalog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
 .catalog__header h1 {
-  margin: 0 0 4px;
+  margin: 0;
   font-size: 32px;
+}
+
+.catalog__login {
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: #2f6f4e;
+  color: #fff;
+  text-decoration: none;
 }
 
 .catalog__header p {

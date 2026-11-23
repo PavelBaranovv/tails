@@ -46,7 +46,7 @@ function ApplicationPage() {
   if (created) {
     return (
       <main className="application">
-        <Link to={`/animals/${animal.id}`}>Назад к анкете</Link>
+        <Link to="/">Вернуться на главную</Link>
         <h1>Заявка создана</h1>
         <p>
           Заявка №{created.id} на усыновление отправлена в приют. {animal.name} уже готовится стать вашим хвостиком.
