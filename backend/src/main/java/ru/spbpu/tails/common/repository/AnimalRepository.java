@@ -9,16 +9,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import ru.spbpu.tails.common.entity.Animal;
 import ru.spbpu.tails.common.entity.AnimalStatus;
 import ru.spbpu.tails.common.entity.Species;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 @NullMarked
 public interface AnimalRepository extends JpaRepository<Animal, Long> {
+    
     @Override
     @EntityGraph(attributePaths = {"shelter", "shelter.district"})
     Optional<Animal> findById(Long id);
@@ -40,4 +41,27 @@ public interface AnimalRepository extends JpaRepository<Animal, Long> {
             @Param("maxAge") @Nullable Integer maxAge,
             Pageable pageable
     );
+
+    @Query("""
+            SELECT DISTINCT animal FROM Animal animal
+            LEFT JOIN FETCH animal.photos
+            WHERE animal.shelter.id = :shelterId AND animal.status = :status
+            ORDER BY animal.createdAt DESC
+            """)
+    List<Animal> findShelterPetsByStatus(
+            @Param("shelterId") Long shelterId,
+            @Param("status") AnimalStatus status);
+
+    @Query("""
+            SELECT DISTINCT animal FROM Animal animal
+            LEFT JOIN FETCH animal.photos
+            WHERE animal.shelter.id = :shelterId
+              AND animal.status = :status
+              AND animal.species = :species
+            ORDER BY animal.createdAt DESC
+            """)
+    List<Animal> findShelterPetsByStatusAndSpecies(
+            @Param("shelterId") Long shelterId,
+            @Param("status") AnimalStatus status,
+            @Param("species") Species species);
 }
