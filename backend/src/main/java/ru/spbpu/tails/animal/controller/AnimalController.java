@@ -7,10 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import ru.spbpu.tails.animal.dto.AnimalRequest;
-import ru.spbpu.tails.animal.dto.AnimalStatusRequest;
-import ru.spbpu.tails.animal.dto.AnimalSummaryResponse;
-import ru.spbpu.tails.animal.dto.AnimalResponse;
+import ru.spbpu.tails.animal.dto.request.AnimalRequest;
+import ru.spbpu.tails.animal.dto.request.AnimalStatusRequest;
+import ru.spbpu.tails.animal.dto.response.AnimalSummaryResponse;
+import ru.spbpu.tails.animal.dto.response.AnimalResponse;
 import ru.spbpu.tails.animal.service.AnimalService;
 import ru.spbpu.tails.common.entity.AnimalStatus;
 import ru.spbpu.tails.common.entity.Species;

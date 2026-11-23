@@ -1,4 +1,4 @@
-package ru.spbpu.tails.animal.dto;
+package ru.spbpu.tails.animal.dto.response;
 
 import java.util.List;
 import lombok.Getter;

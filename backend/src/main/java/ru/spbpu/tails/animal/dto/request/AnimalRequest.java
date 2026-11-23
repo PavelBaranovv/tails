@@ -1,4 +1,4 @@
-package ru.spbpu.tails.animal.dto;
+package ru.spbpu.tails.animal.dto.request;
 
 import jakarta.validation.constraints.*;
 import lombok.Getter;
