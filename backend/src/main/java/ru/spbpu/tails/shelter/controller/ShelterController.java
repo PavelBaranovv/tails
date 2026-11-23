@@ -1,4 +1,4 @@
-package ru.spbpu.tails.shelter;
+package ru.spbpu.tails.shelter.controller;
 
 import java.security.Principal;
 import java.util.List;
@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.spbpu.tails.common.entity.ApplicationStatus;
 import ru.spbpu.tails.common.entity.AnimalStatus;
 import ru.spbpu.tails.common.entity.Species;
+import ru.spbpu.tails.shelter.dto.request.UpdateShelterProfileRequest;
+import ru.spbpu.tails.shelter.dto.response.ShelterApplicationResponse;
+import ru.spbpu.tails.shelter.dto.response.ShelterPetResponse;
+import ru.spbpu.tails.shelter.dto.response.ShelterProfileResponse;
+import ru.spbpu.tails.shelter.service.ShelterService;
 
 @RestController
 @RequestMapping("/api/v1/shelter")
@@ -23,12 +28,12 @@ public class ShelterController {
     }
 
     @GetMapping("/profile")
-    public ShelterProfile getProfile(Principal principal) {
+    public ShelterProfileResponse getProfile(Principal principal) {
         return shelterService.getProfile(principal);
     }
 
     @PutMapping("/profile")
-    public ShelterProfile updateProfile(
+    public ShelterProfileResponse updateProfile(
             Principal principal,
             @RequestBody UpdateShelterProfileRequest request) {
         return shelterService.updateProfile(principal, request);

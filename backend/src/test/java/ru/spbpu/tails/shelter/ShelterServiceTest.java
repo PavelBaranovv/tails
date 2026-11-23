@@ -36,6 +36,11 @@ import ru.spbpu.tails.common.repository.AnimalRepository;
 import ru.spbpu.tails.common.repository.ApplicationRepository;
 import ru.spbpu.tails.common.repository.DistrictRepository;
 import ru.spbpu.tails.common.repository.ShelterRepository;
+import ru.spbpu.tails.shelter.dto.request.UpdateShelterProfileRequest;
+import ru.spbpu.tails.shelter.dto.response.ShelterApplicationResponse;
+import ru.spbpu.tails.shelter.dto.response.ShelterPetResponse;
+import ru.spbpu.tails.shelter.dto.response.ShelterProfileResponse;
+import ru.spbpu.tails.shelter.service.ShelterService;
 
 @ExtendWith(MockitoExtension.class)
 class ShelterServiceTest {
@@ -72,9 +77,9 @@ class ShelterServiceTest {
         when(shelterRepository.findByEmailIgnoreCase(SHELTER_EMAIL))
                 .thenReturn(Optional.of(shelter));
 
-        ShelterProfile profile = shelterService.getProfile(principal());
+        ShelterProfileResponse profile = shelterService.getProfile(principal());
 
-        assertThat(profile).isEqualTo(new ShelterProfile(
+        assertThat(profile).isEqualTo(new ShelterProfileResponse(
                 "Happy Tails",
                 "Central",
                 "10 Main Street",
@@ -136,7 +141,7 @@ class ShelterServiceTest {
         when(districtRepository.findByNameIgnoreCase("North"))
                 .thenReturn(Optional.of(district));
 
-        ShelterProfile profile = shelterService.updateProfile(
+        ShelterProfileResponse profile = shelterService.updateProfile(
                 principal(),
                 new UpdateShelterProfileRequest(
                         "  New Shelter  ",
@@ -144,7 +149,7 @@ class ShelterServiceTest {
                         "  20 New Street  ",
                         "  +79990001122  "));
 
-        assertThat(profile).isEqualTo(new ShelterProfile(
+        assertThat(profile).isEqualTo(new ShelterProfileResponse(
                 "New Shelter",
                 "North",
                 "20 New Street",
@@ -230,11 +235,11 @@ class ShelterServiceTest {
         when(districtRepository.findByNameIgnoreCase(districtName))
                 .thenReturn(Optional.of(district));
 
-        ShelterProfile profile = shelterService.updateProfile(
+        ShelterProfileResponse profile = shelterService.updateProfile(
                 principal(),
                 new UpdateShelterProfileRequest(name, districtName, address, phone));
 
-        assertThat(profile).isEqualTo(new ShelterProfile(name, districtName, address, phone));
+        assertThat(profile).isEqualTo(new ShelterProfileResponse(name, districtName, address, phone));
     }
 
     @Test
@@ -250,11 +255,11 @@ class ShelterServiceTest {
         when(districtRepository.findByNameIgnoreCase(districtName))
                 .thenReturn(Optional.of(district));
 
-        ShelterProfile profile = shelterService.updateProfile(
+        ShelterProfileResponse profile = shelterService.updateProfile(
                 principal(),
                 new UpdateShelterProfileRequest(name, districtName, address, phone));
 
-        assertThat(profile).isEqualTo(new ShelterProfile(name, districtName, address, phone));
+        assertThat(profile).isEqualTo(new ShelterProfileResponse(name, districtName, address, phone));
     }
 
     @Test

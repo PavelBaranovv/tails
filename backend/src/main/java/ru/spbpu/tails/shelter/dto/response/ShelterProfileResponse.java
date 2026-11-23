@@ -1,6 +1,6 @@
-package ru.spbpu.tails.shelter;
+package ru.spbpu.tails.shelter.dto.response;
 
-public record ShelterProfile(
+public record ShelterProfileResponse(
         String name,
         String district,
         String address,

@@ -1,4 +1,4 @@
-package ru.spbpu.tails.shelter;
+package ru.spbpu.tails.shelter.service;
 
 import java.security.Principal;
 import java.time.YearMonth;
@@ -19,6 +19,10 @@ import ru.spbpu.tails.common.repository.ApplicationRepository;
 import ru.spbpu.tails.common.repository.AnimalRepository;
 import ru.spbpu.tails.common.repository.DistrictRepository;
 import ru.spbpu.tails.common.repository.ShelterRepository;
+import ru.spbpu.tails.shelter.dto.request.UpdateShelterProfileRequest;
+import ru.spbpu.tails.shelter.dto.response.ShelterApplicationResponse;
+import ru.spbpu.tails.shelter.dto.response.ShelterPetResponse;
+import ru.spbpu.tails.shelter.dto.response.ShelterProfileResponse;
 
 @Service
 public class ShelterService {
@@ -40,12 +44,12 @@ public class ShelterService {
     }
 
     @Transactional(readOnly = true)
-    public ShelterProfile getProfile(Principal principal) {
+    public ShelterProfileResponse getProfile(Principal principal) {
         return toProfile(getShelter(principal));
     }
 
     @Transactional
-    public ShelterProfile updateProfile(
+    public ShelterProfileResponse updateProfile(
             Principal principal,
             UpdateShelterProfileRequest request) {
         if (request == null) {
@@ -191,8 +195,8 @@ public class ShelterService {
                         "Authenticated account is not a shelter"));
     }
 
-    private ShelterProfile toProfile(Shelter shelter) {
-        return new ShelterProfile(
+    private ShelterProfileResponse toProfile(Shelter shelter) {
+        return new ShelterProfileResponse(
                 shelter.getName(),
                 shelter.getDistrict().getName(),
                 shelter.getAddress(),
