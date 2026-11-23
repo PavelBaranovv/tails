@@ -27,6 +27,9 @@ function AnimalPage() {
       <p>{animal.sex == null ? "Пол неизвестен" : sexLabel(animal.sex)}</p>
       <p>{animal.breed == null ? "Порода неизвестна" : animal.breed}</p>
       {animal.description && <p>{animal.description}</p>}
+      <Link className="profile__adopt" to={`/animals/${animal.id}/apply`}>
+        Приютить
+      </Link>
       <section>
         <h2>{animal.shelterName}</h2>
         <p>{animal.phone}</p>
