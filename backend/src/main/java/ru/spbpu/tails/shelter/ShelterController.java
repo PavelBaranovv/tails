@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.spbpu.tails.application.ApplicationResponse;
+import ru.spbpu.tails.application.dto.response.ApplicationResponse;
 import ru.spbpu.tails.common.entity.ApplicationStatus;
 import ru.spbpu.tails.common.entity.AnimalStatus;
 import ru.spbpu.tails.common.entity.Species;

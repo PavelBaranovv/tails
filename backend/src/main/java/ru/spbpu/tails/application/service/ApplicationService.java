@@ -1,4 +1,4 @@
-package ru.spbpu.tails.application;
+package ru.spbpu.tails.application.service;
 
 import java.security.Principal;
 import java.util.List;
@@ -6,6 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import ru.spbpu.tails.application.dto.request.CreateApplicationRequest;
+import ru.spbpu.tails.application.dto.request.UpdateApplicationStatusRequest;
+import ru.spbpu.tails.application.dto.response.ApplicationResponse;
+import ru.spbpu.tails.application.dto.response.CreateApplicationResponse;
+import ru.spbpu.tails.application.dto.response.UpdateApplicationStatusResponse;
 import ru.spbpu.tails.common.entity.AdoptionApplication;
 import ru.spbpu.tails.common.entity.Animal;
 import ru.spbpu.tails.common.entity.AnimalStatus;

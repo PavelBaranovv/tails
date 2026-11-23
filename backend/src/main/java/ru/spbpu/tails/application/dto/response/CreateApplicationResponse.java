@@ -1,4 +1,4 @@
-package ru.spbpu.tails.application;
+package ru.spbpu.tails.application.dto.response;
 
 import ru.spbpu.tails.common.entity.ApplicationStatus;
 
