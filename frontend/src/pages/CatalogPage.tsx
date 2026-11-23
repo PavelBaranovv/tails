@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 import {
   AGE_OPTIONS,
   DISTRICTS,
@@ -76,15 +77,17 @@ function CatalogPage() {
           {animals.map((animal) => {
             const ageMonths = ageInMonths(animal)
             return (
-              <li key={animal.id} className="card">
-                <img src={animal.photoUrl} alt={animal.name} />
-                <div className="card__body">
-                  <h2>{animal.name}</h2>
-                  <p>{speciesLabel(animal.species)}</p>
-                  {animal.sex && <p>{sexLabel(animal.sex)}</p>}
-                  {ageMonths != null && <p>{formatAge(ageMonths)}</p>}
-                  <p>{animal.district}</p>
-                </div>
+              <li key={animal.id}>
+                <Link className="card" to={`/animals/${animal.id}`}>
+                  <img src={animal.photoUrl} alt={animal.name} />
+                  <div className="card__body">
+                    <h2>{animal.name}</h2>
+                    <p>{speciesLabel(animal.species)}</p>
+                    {animal.sex && <p>{sexLabel(animal.sex)}</p>}
+                    {ageMonths != null && <p>{formatAge(ageMonths)}</p>}
+                    <p>{animal.district}</p>
+                  </div>
+                </Link>
               </li>
             )
           })}

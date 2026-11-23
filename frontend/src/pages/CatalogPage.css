@@ -48,10 +48,13 @@
 }
 
 .card {
+  display: block;
   overflow: hidden;
   border: 1px solid #e4e7eb;
   border-radius: 12px;
   background: #fff;
+  color: inherit;
+  text-decoration: none;
 }
 
 .card img {

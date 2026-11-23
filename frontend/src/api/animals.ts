@@ -10,6 +10,11 @@ export type AnimalCard = {
   birthYear: number | null
   district: string
   photoUrl: string
+  breed: string | null
+  description: string | null
+  shelterName: string
+  phone: string
+  address: string
 }
 
 export type AnimalFilters = {
@@ -64,6 +69,11 @@ const animals: AnimalCard[] = [
     birthYear: 2024,
     district: "Центральный",
     photoUrl: "/photos/cat.jpg",
+    breed: "Британская",
+    description: "Спокойный и дружелюбный кот.",
+    shelterName: "Добрые лапы",
+    phone: "+79991234567",
+    address: "ул. Примерная, 10",
   },
   {
     id: 2,
@@ -74,6 +84,11 @@ const animals: AnimalCard[] = [
     birthYear: null,
     district: "Василеостровский",
     photoUrl: "/photos/cat.jpg",
+    breed: null,
+    description: null,
+    shelterName: "Остров надежды",
+    phone: "+79990001122",
+    address: "Средний проспект, 5",
   },
   {
     id: 3,
@@ -84,6 +99,11 @@ const animals: AnimalCard[] = [
     birthYear: 2020,
     district: "Невский",
     photoUrl: "/photos/dog.jpg",
+    breed: "Дворняжка",
+    description: "Активный пёс, любит прогулки.",
+    shelterName: "Невский дом",
+    phone: "+79997654321",
+    address: "проспект Большевиков, 12",
   },
   {
     id: 4,
@@ -94,6 +114,11 @@ const animals: AnimalCard[] = [
     birthYear: 2023,
     district: "Приморский",
     photoUrl: "/photos/dog.jpg",
+    breed: null,
+    description: "Спокойно относится к детям.",
+    shelterName: "Приморский приют",
+    phone: "+79991112233",
+    address: "улица Савушкина, 20",
   },
   {
     id: 5,
@@ -104,6 +129,11 @@ const animals: AnimalCard[] = [
     birthYear: 2022,
     district: "Петроградский",
     photoUrl: "/photos/parrot.jpg",
+    breed: "Волнистый",
+    description: null,
+    shelterName: "Крыло",
+    phone: "+79995556677",
+    address: "Каменноостровский проспект, 8",
   },
   {
     id: 6,
@@ -114,6 +144,11 @@ const animals: AnimalCard[] = [
     birthYear: null,
     district: "Калининский",
     photoUrl: "/photos/other.png",
+    breed: null,
+    description: null,
+    shelterName: "Тихий двор",
+    phone: "+79993334455",
+    address: "проспект Науки, 15",
   },
   {
     id: 7,
@@ -124,6 +159,11 @@ const animals: AnimalCard[] = [
     birthYear: 2025,
     district: "Московский",
     photoUrl: "/photos/dog.jpg",
+    breed: "Хаски",
+    description: "Молодая и игривая.",
+    shelterName: "Север",
+    phone: "+79992223344",
+    address: "Московский проспект, 100",
   },
   {
     id: 8,
@@ -134,6 +174,11 @@ const animals: AnimalCard[] = [
     birthYear: 2019,
     district: "Пушкинский",
     photoUrl: "/photos/cat.jpg",
+    breed: "Сибирская",
+    description: "Ласковый кот, привык к дому.",
+    shelterName: "Пушкинский приют",
+    phone: "+79994445566",
+    address: "улица Архитектора Данини, 3",
   },
 ]
 
@@ -197,4 +242,8 @@ export function getAnimals(filters: AnimalFilters) {
     }
     return true
   })
+}
+
+export function getAnimal(id: number) {
+  return animals.find((animal) => animal.id === id) ?? null
 }

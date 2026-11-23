@@ -1,0 +1,33 @@
+.profile {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.profile a {
+  color: #2f6f4e;
+}
+
+.profile img {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  margin: 16px 0;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #f4f6f8;
+}
+
+.profile h1 {
+  margin: 0 0 8px;
+}
+
+.profile h2 {
+  margin: 20px 0 8px;
+  font-size: 20px;
+}
+
+.profile p {
+  margin: 0;
+  line-height: 1.5;
+}
