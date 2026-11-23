@@ -1,5 +1,7 @@
+import CatalogPage from "./pages/CatalogPage.tsx"
+
 function App() {
-  return <h1>Хвостики</h1>
+  return <CatalogPage />
 }
 
 export default App
