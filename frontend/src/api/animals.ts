@@ -54,8 +54,8 @@ export const SPECIES: { value: Species; label: string }[] = [
 
 export const AGE_OPTIONS: { label: string; minAge: number | null; maxAge: number | null }[] = [
   { label: "Любой", minAge: null, maxAge: null },
-  { label: "До 1 года", minAge: null, maxAge: 11 },
-  { label: "1–3 года", minAge: 12, maxAge: 35 },
+  { label: "До года", minAge: null, maxAge: 11 },
+  { label: "От 1 до 3 лет", minAge: 12, maxAge: 35 },
   { label: "Старше 3 лет", minAge: 36, maxAge: null },
 ]
 
@@ -182,12 +182,18 @@ const animals: AnimalCard[] = [
   },
 ]
 
-export function speciesLabel(species: Species) {
+export function speciesLabel(species: Species, sex?: Sex | null) {
+  if (species === "CAT" && sex === "MALE") {
+    return "Кот"
+  }
+  if (species === "CAT" && sex === "FEMALE") {
+    return "Кошка"
+  }
   return SPECIES.find((item) => item.value === species)?.label ?? species
 }
 
 export function sexLabel(sex: Sex) {
-  return sex === "MALE" ? "Самец" : "Самка"
+  return sex === "MALE" ? "Мальчик" : "Девочка"
 }
 
 export function ageInMonths(animal: AnimalCard, today = new Date()) {

@@ -1,7 +1,15 @@
 import { useState, type FormEvent } from "react"
 import { Link, useParams } from "react-router-dom"
 import { createApplication, type Application } from "../api/applications"
-import { getAnimal } from "../api/animals"
+import {
+  ageInMonths,
+  formatAge,
+  getAnimal,
+  sexLabel,
+  speciesLabel,
+  type AnimalCard,
+} from "../api/animals"
+import SiteHeader from "./SiteHeader.tsx"
 import "./ApplicationPage.css"
 
 function ApplicationPage() {
@@ -14,17 +22,20 @@ function ApplicationPage() {
 
   if (!animal) {
     return (
-      <main className="application">
-        <Link to="/">Назад</Link>
-        <p>Животное не найдено.</p>
-      </main>
+      <div className="application-page">
+        <SiteHeader />
+        <main className="application">
+          <p>Животное не найдено.</p>
+          <Link to="/">Назад к каталогу</Link>
+        </main>
+      </div>
     )
   }
 
   function submit(event: FormEvent) {
     event.preventDefault()
     const applicantName = name.trim()
-    const applicantPhone = phone.trim()
+    const applicantPhone = phone.trim().replace(/[\s()-]/g, "")
     if (applicantName.length < 2 || applicantName.length > 128) {
       setError("Имя должно быть от 2 до 128 символов.")
       return
@@ -45,33 +56,87 @@ function ApplicationPage() {
 
   if (created) {
     return (
-      <main className="application">
-        <Link to="/">Вернуться на главную</Link>
-        <h1>Заявка создана</h1>
-        <p>
-          Заявка №{created.id} на усыновление отправлена в приют. {animal.name} уже готовится стать вашим хвостиком.
-        </p>
-      </main>
+      <div className="application-page">
+        <SiteHeader />
+        <main className="application">
+          <section className="application__card">
+            <h1>Заявка создана!</h1>
+            <div className="application__success">
+              <p>Заявка №{created.id} на усыновление отправлена в приют.</p>
+              <p>{animal.name} уже готовится стать вашим хвостиком.</p>
+            </div>
+            <Link className="application__home" to="/">
+              Вернуться на главную
+            </Link>
+          </section>
+        </main>
+      </div>
     )
   }
 
+  const ageMonths = ageInMonths(animal)
+
   return (
-    <main className="application">
-      <Link to={`/animals/${animal.id}`}>Назад к анкете</Link>
-      <h1>Приютить {animal.name}</h1>
-      <form onSubmit={submit}>
-        <label>
-          Имя
-          <input value={name} onChange={(event) => setName(event.target.value)} />
-        </label>
-        <label>
-          Телефон
-          <input value={phone} onChange={(event) => setPhone(event.target.value)} />
-        </label>
-        {error && <p className="application__error">{error}</p>}
-        <button type="submit">Отправить</button>
-      </form>
-    </main>
+    <div className="application-page">
+      <SiteHeader />
+      <main className="application">
+        <Link className="application__back" to={`/animals/${animal.id}`}>
+          ← Назад к профилю животного
+        </Link>
+        <section className="application__card">
+          <h1>Заполните заявку</h1>
+          <p className="application__lead">Мы передадим её в приют</p>
+          <AnimalSummary animal={animal} ageMonths={ageMonths} />
+          <form onSubmit={submit}>
+            <label>
+              <span>
+                Имя <span className="application__required">*</span>
+              </span>
+              <input
+                value={name}
+                placeholder="Введите ваше имя"
+                autoComplete="name"
+                onChange={(event) => setName(event.target.value)}
+              />
+            </label>
+            <label>
+              <span>
+                Телефон <span className="application__required">*</span>
+              </span>
+              <input
+                value={phone}
+                placeholder="+7 (___) ___-__-__"
+                autoComplete="tel"
+                inputMode="tel"
+                onChange={(event) => setPhone(event.target.value)}
+              />
+            </label>
+            {error && <p className="application__error">{error}</p>}
+            <div className="application__actions">
+              <button type="submit">Отправить заявку</button>
+              <Link to={`/animals/${animal.id}`}>Отмена</Link>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+  )
+}
+
+function AnimalSummary({ animal, ageMonths }: { animal: AnimalCard; ageMonths: number | null }) {
+  return (
+    <div className="application__animal">
+      <img src={animal.photoUrl} alt={animal.name} />
+      <div>
+        <h2>{animal.name}</h2>
+        <ul>
+          <li>{speciesLabel(animal.species, animal.sex)}</li>
+          <li>{animal.sex == null ? "Пол неизвестен" : sexLabel(animal.sex)}</li>
+          <li>{ageMonths == null ? "Возраст неизвестен" : formatAge(ageMonths)}</li>
+          <li>{animal.breed == null ? "Порода неизвестна" : animal.breed}</li>
+        </ul>
+      </div>
+    </div>
   )
 }
 
