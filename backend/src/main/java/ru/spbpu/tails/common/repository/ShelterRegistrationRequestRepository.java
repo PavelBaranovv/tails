@@ -14,7 +14,7 @@ import ru.spbpu.tails.common.entity.ShelterRegistrationRequest;
 public interface ShelterRegistrationRequestRepository
         extends JpaRepository<ShelterRegistrationRequest, Long> {
 
-    boolean existsByEmailIgnoreCase(String email);
+    boolean existsByEmailIgnoreCaseAndStatus(String email, RegistrationStatus status);
 
     @EntityGraph(attributePaths = "district")
     List<ShelterRegistrationRequest> findAllByStatusOrderByCreatedAtAsc(

@@ -81,6 +81,30 @@ public class AdminService {
         return new ApproveRegistrationResponse(request.getId(), request.getStatus());
     }
 
+    @Transactional
+    public void rejectRegistration(Long registrationRequestId) {
+        if (registrationRequestId == null || registrationRequestId < 1) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "registrationRequestId must be a positive number");
+        }
+
+        ShelterRegistrationRequest request = registrationRequestRepository
+                .findByIdForUpdate(registrationRequestId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Registration request not found"));
+
+        if (request.getStatus() != RegistrationStatus.PENDING) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Registration request has already been processed");
+        }
+
+        request.setStatus(RegistrationStatus.REJECTED);
+        request.setProcessedAt(LocalDateTime.now());
+    }
+
     private RegistrationRequestResponse toResponse(ShelterRegistrationRequest request) {
         return new RegistrationRequestResponse(
                 request.getId(),

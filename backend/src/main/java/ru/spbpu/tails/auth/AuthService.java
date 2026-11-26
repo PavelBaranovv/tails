@@ -73,7 +73,8 @@ public class AuthService {
 
         String email = request.email().trim().toLowerCase(Locale.ROOT);
         if (shelterRepository.existsByEmailIgnoreCase(email)
-                || registrationRequestRepository.existsByEmailIgnoreCase(email)) {
+                || registrationRequestRepository.existsByEmailIgnoreCaseAndStatus(
+                        email, RegistrationStatus.PENDING)) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
                     "A shelter or registration request with this email already exists");

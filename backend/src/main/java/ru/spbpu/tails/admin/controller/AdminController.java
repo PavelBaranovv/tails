@@ -1,5 +1,6 @@
 package ru.spbpu.tails.admin.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,5 +29,12 @@ public class AdminController {
     public ApproveRegistrationResponse approveRegistration(
             @PathVariable Long registrationRequestId) {
         return adminService.approveRegistration(registrationRequestId);
+    }
+
+    @PostMapping("/registration-requests/{registrationRequestId}/reject")
+    public ResponseEntity<Void> rejectRegistration(
+            @PathVariable Long registrationRequestId) {
+        adminService.rejectRegistration(registrationRequestId);
+        return ResponseEntity.noContent().build();
     }
 }
