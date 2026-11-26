@@ -1,8 +1,11 @@
 package ru.spbpu.tails.admin.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.spbpu.tails.admin.dto.response.ApproveRegistrationResponse;
 import ru.spbpu.tails.admin.dto.response.RegistrationRequestListResponse;
 import ru.spbpu.tails.admin.service.AdminService;
 
@@ -19,5 +22,11 @@ public class AdminController {
     @GetMapping("/registration-requests")
     public RegistrationRequestListResponse getRegistrationRequests() {
         return adminService.getRegistrationRequests();
+    }
+
+    @PostMapping("/registration-requests/{registrationRequestId}/approve")
+    public ApproveRegistrationResponse approveRegistration(
+            @PathVariable Long registrationRequestId) {
+        return adminService.approveRegistration(registrationRequestId);
     }
 }
