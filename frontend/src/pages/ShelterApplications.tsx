@@ -73,7 +73,12 @@ function ShelterApplications() {
                 </span>
                 <span>{application.applicantName}</span>
                 <span>{application.applicantPhone}</span>
-                <Link to={`/animals/${application.animalId}`}>{application.animalName}</Link>
+                <Link
+                  to={`/animals/${application.animalId}`}
+                  state={{ backTo: "/shelter/applications" }}
+                >
+                  {application.animalName}
+                </Link>
                 <div className="apps__change">
                   <button
                     type="button"

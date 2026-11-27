@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import {
   createPet,
   deletePet,
@@ -19,6 +20,7 @@ import FilterMenu from "./FilterMenu.tsx"
 import ShelterPetForm from "./ShelterPetForm.tsx"
 
 function ShelterPets() {
+  const navigate = useNavigate()
   const [status, setStatus] = useState<PetStatus | "ALL">("AVAILABLE")
   const [species, setSpecies] = useState<Species | "">("")
   const [openFilter, setOpenFilter] = useState<"status" | "species" | null>(null)
@@ -120,7 +122,19 @@ function ShelterPets() {
         ) : (
           <ul className="pets__list">
             {pets.map((pet) => (
-              <li key={pet.id} className="pets__row">
+              <li
+                key={pet.id}
+                className="pets__row"
+                tabIndex={0}
+                onClick={() =>
+                  navigate(`/animals/${pet.id}`, { state: { backTo: "/shelter/pets" } })
+                }
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && event.target === event.currentTarget) {
+                    navigate(`/animals/${pet.id}`, { state: { backTo: "/shelter/pets" } })
+                  }
+                }}
+              >
                 {pet.photoUrls[0] ? (
                   <img src={pet.photoUrls[0]} alt="" />
                 ) : (
@@ -136,7 +150,7 @@ function ShelterPets() {
                     <span>{petStatusLabel(pet.status, pet.sex)}</span>
                   </div>
                 </div>
-                <div className="pets__actions">
+                <div className="pets__actions" onClick={(event) => event.stopPropagation()}>
                   <button type="button" onClick={() => adopt(pet.id)}>
                     Приютили
                   </button>

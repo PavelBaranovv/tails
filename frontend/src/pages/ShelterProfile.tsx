@@ -22,7 +22,7 @@ function ShelterProfilePage() {
       {editing ? (
         <ProfileForm profile={profile} onCancel={() => setEditing(false)} onSave={save} />
       ) : (
-        <div className="profile">
+        <div className="shelter-profile">
           <h1>{profile.name}</h1>
           <dl>
             <div>
