@@ -2,6 +2,7 @@ import { Navigate, NavLink, useParams } from "react-router-dom"
 import SiteHeader from "./SiteHeader.tsx"
 import ShelterApplications from "./ShelterApplications.tsx"
 import ShelterPets from "./ShelterPets.tsx"
+import ShelterProfilePage from "./ShelterProfile.tsx"
 import "./ShelterCabinetPage.css"
 
 const sections = [
@@ -40,7 +41,7 @@ function ShelterCabinetPage() {
         ) : current.id === "applications" ? (
           <ShelterApplications />
         ) : (
-          <section className="cabinet__panel" aria-label={current.label} />
+          <ShelterProfilePage />
         )}
       </main>
     </div>

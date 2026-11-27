@@ -34,3 +34,12 @@ export function getShelterSession(): ShelterSession | null {
 export function logoutShelter() {
   sessionStorage.removeItem(SESSION_KEY)
 }
+
+export function updateShelterSessionName(name: string) {
+  const session = getShelterSession()
+  if (!session) {
+    return
+  }
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify({ ...session, name }))
+  window.dispatchEvent(new Event("tails-shelter-session"))
+}

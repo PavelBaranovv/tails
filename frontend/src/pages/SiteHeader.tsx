@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { getShelterSession, logoutShelter, type ShelterSession } from "../api/auth"
 import "./SiteHeader.css"
@@ -8,6 +8,14 @@ function SiteHeader({ onBrandClick }: { onBrandClick?: () => void }) {
   const location = useLocation()
   const [session, setSession] = useState<ShelterSession | null>(getShelterSession)
   const shelterLink = location.pathname.startsWith("/shelter") ? "/shelter/profile" : "/shelter/pets"
+
+  useEffect(() => {
+    function refresh() {
+      setSession(getShelterSession())
+    }
+    window.addEventListener("tails-shelter-session", refresh)
+    return () => window.removeEventListener("tails-shelter-session", refresh)
+  }, [])
 
   function logout() {
     logoutShelter()
