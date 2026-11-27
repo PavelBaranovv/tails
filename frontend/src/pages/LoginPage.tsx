@@ -12,12 +12,13 @@ function LoginPage() {
 
   function submit(event: FormEvent) {
     event.preventDefault()
-    if (!loginShelter(email, password)) {
+    const role = loginShelter(email, password)
+    if (!role) {
       setError("Неверный email или пароль")
       return
     }
     setError("")
-    navigate("/shelter/pets")
+    navigate(role === "ADMIN" ? "/admin/shelters" : "/shelter/pets")
   }
 
   return (

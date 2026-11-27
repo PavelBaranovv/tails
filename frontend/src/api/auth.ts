@@ -1,22 +1,31 @@
 const SHELTER_EMAIL = "shelter@tails.local"
-const SHELTER_PASSWORD = "password123"
+const ADMIN_EMAIL = "admin@tails.local"
+const ACCOUNT_PASSWORD = "password123"
 const SESSION_KEY = "tails.shelter"
 
 export const SHELTER_NAME = "Добрые лапы"
 
+export type AccountRole = "SHELTER" | "ADMIN"
+
 export type ShelterSession = {
   name: string
   email: string
+  role: AccountRole
 }
 
 export function loginShelter(email: string, password: string) {
-  const matches = email.trim().toLowerCase() === SHELTER_EMAIL && password === SHELTER_PASSWORD
-  if (!matches) {
-    return false
+  const normalized = email.trim().toLowerCase()
+  const session: ShelterSession | null =
+    normalized === ADMIN_EMAIL && password === ACCOUNT_PASSWORD
+      ? { name: "Администратор", email: ADMIN_EMAIL, role: "ADMIN" }
+      : normalized === SHELTER_EMAIL && password === ACCOUNT_PASSWORD
+        ? { name: SHELTER_NAME, email: SHELTER_EMAIL, role: "SHELTER" }
+        : null
+  if (!session) {
+    return null
   }
-  const session: ShelterSession = { name: SHELTER_NAME, email: SHELTER_EMAIL }
   sessionStorage.setItem(SESSION_KEY, JSON.stringify(session))
-  return true
+  return session.role
 }
 
 export function getShelterSession(): ShelterSession | null {
@@ -25,7 +34,15 @@ export function getShelterSession(): ShelterSession | null {
     return null
   }
   try {
-    return JSON.parse(raw) as ShelterSession
+    const parsed = JSON.parse(raw) as Partial<ShelterSession>
+    if (!parsed.name || !parsed.email) {
+      return null
+    }
+    return {
+      name: parsed.name,
+      email: parsed.email,
+      role: parsed.role === "ADMIN" ? "ADMIN" : "SHELTER",
+    }
   } catch {
     return null
   }

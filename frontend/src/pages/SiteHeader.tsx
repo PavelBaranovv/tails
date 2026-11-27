@@ -7,7 +7,12 @@ function SiteHeader({ onBrandClick }: { onBrandClick?: () => void }) {
   const navigate = useNavigate()
   const location = useLocation()
   const [session, setSession] = useState<ShelterSession | null>(getShelterSession)
-  const shelterLink = location.pathname.startsWith("/shelter") ? "/shelter/profile" : "/shelter/pets"
+  const accountLink =
+    session?.role === "ADMIN"
+      ? "/admin/shelters"
+      : location.pathname.startsWith("/shelter")
+        ? "/shelter/profile"
+        : "/shelter/pets"
 
   useEffect(() => {
     function refresh() {
@@ -32,7 +37,7 @@ function SiteHeader({ onBrandClick }: { onBrandClick?: () => void }) {
         </Link>
         {session ? (
           <div className="site-header__account">
-            <Link className="site-header__shelter" to={shelterLink}>
+            <Link className="site-header__shelter" to={accountLink}>
               {session.name}
             </Link>
             <button type="button" className="site-header__login" onClick={logout}>
