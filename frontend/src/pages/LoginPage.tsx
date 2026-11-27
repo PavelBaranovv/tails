@@ -1,16 +1,23 @@
 import { useState, type FormEvent } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { loginShelter } from "../api/auth"
 import SiteHeader from "./SiteHeader.tsx"
 import "./LoginPage.css"
 
 function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [notice, setNotice] = useState("")
+  const [error, setError] = useState("")
+  const navigate = useNavigate()
 
   function submit(event: FormEvent) {
     event.preventDefault()
-    setNotice("Вход пока не подключён к серверу.")
+    if (!loginShelter(email, password)) {
+      setError("Неверный email или пароль")
+      return
+    }
+    setError("")
+    navigate("/shelter/pets")
   }
 
   return (
@@ -43,7 +50,7 @@ function LoginPage() {
                 onChange={(event) => setPassword(event.target.value)}
               />
             </label>
-            {notice && <p className="login__notice">{notice}</p>}
+            {error && <p className="login__error">{error}</p>}
             <button type="submit">Войти</button>
           </form>
         </section>

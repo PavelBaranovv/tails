@@ -53,9 +53,9 @@
   border-color: #5d8a45;
 }
 
-.login__notice {
+.login__error {
   margin: 0;
-  color: #6b6560;
+  color: #9b2c2c;
   line-height: 1.45;
 }
 

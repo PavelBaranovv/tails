@@ -1,0 +1,40 @@
+.cabinet {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 22px 20px 56px;
+}
+
+.cabinet__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.cabinet__tab {
+  padding: 8px 16px;
+  border: 1.5px solid #d9d4cc;
+  border-radius: 999px;
+  background: #fff;
+  color: #2b2b2b;
+  text-decoration: none;
+}
+
+.cabinet__tab--active {
+  border-color: #3f6b46;
+  background: #3f6b46;
+  color: #fff;
+}
+
+.cabinet__panel {
+  min-height: 280px;
+  border: 1px solid #e6e2da;
+  border-radius: 16px;
+  background: #fff;
+}
+
+@media (max-width: 640px) {
+  .cabinet {
+    padding: 18px 16px 40px;
+  }
+}
