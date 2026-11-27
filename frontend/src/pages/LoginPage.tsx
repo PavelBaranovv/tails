@@ -53,6 +53,9 @@ function LoginPage() {
             {error && <p className="login__error">{error}</p>}
             <button type="submit">Войти</button>
           </form>
+          <p className="login__register">
+            Приют ещё не зарегистрирован? <Link to="/register">Подать заявку</Link>
+          </p>
         </section>
       </main>
     </div>

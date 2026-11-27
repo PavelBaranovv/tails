@@ -79,6 +79,17 @@
   background: #28462d;
 }
 
+.login__register {
+  margin: 16px 0 0;
+  color: #6b6560;
+  font-size: 14px;
+  text-align: center;
+}
+
+.login__register a {
+  color: #3f6b32;
+}
+
 @media (max-width: 640px) {
   .login__card {
     padding: 20px 16px;
