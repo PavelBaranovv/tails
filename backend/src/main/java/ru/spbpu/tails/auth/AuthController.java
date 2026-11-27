@@ -1,5 +1,6 @@
 package ru.spbpu.tails.auth;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class AuthController {
         this.authService = authService;
     }
 
+    @RateLimiter(name = "loginLimiter", fallbackMethod = "loginFallback")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
@@ -29,5 +31,10 @@ public class AuthController {
             @Valid @RequestBody RegisterShelterRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(authService.createRegistrationRequest(request));
+    }
+  
+    public ResponseEntity<String> loginFallback(LoginRequest request, Exception ex) {
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                .body("Слишком много попыток входа. Попробуйте позже.");
     }
 }

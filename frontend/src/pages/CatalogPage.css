@@ -1,0 +1,139 @@
+.catalog-page {
+  min-height: 100vh;
+  background: #f3f1ec;
+}
+
+.catalog {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 28px 20px 56px;
+}
+
+.catalog__title {
+  margin: 0 0 14px;
+  font-size: 28px;
+}
+
+.catalog__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.filter {
+  position: relative;
+}
+
+.filter > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #2b2b2b;
+  font: inherit;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.filter--dark.filter--active > button {
+  background: #2c2c2c;
+  color: #fff;
+}
+
+.filter--warm.filter--active > button {
+  background: #e07a3d;
+  color: #fff;
+}
+
+.filter ul {
+  position: absolute;
+  z-index: 2;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 180px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.filter li button {
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.filter li button:hover,
+.filter li button.is-selected {
+  background: #f3f1ec;
+}
+
+.catalog__empty {
+  color: #5c6570;
+}
+
+.catalog__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: block;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(40, 40, 40, 0.06);
+}
+
+.card img {
+  display: block;
+  width: 100%;
+  height: 168px;
+  object-fit: cover;
+  background: #eee;
+}
+
+.card__body {
+  padding: 12px 14px 16px;
+}
+
+.card__body h2 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.card__body p {
+  margin: 0;
+  color: #4a4a4a;
+  line-height: 1.35;
+}
+
+@media (max-width: 980px) {
+  .catalog__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .catalog__grid {
+    grid-template-columns: 1fr;
+  }
+}
