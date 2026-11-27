@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.spbpu.tails.admin.dto.response.ApproveRegistrationResponse;
 import ru.spbpu.tails.admin.dto.response.RegistrationRequestListResponse;
+import ru.spbpu.tails.admin.dto.response.ShelterListResponse;
 import ru.spbpu.tails.admin.service.AdminService;
 
 @RestController
@@ -23,6 +24,11 @@ public class AdminController {
     @GetMapping("/registration-requests")
     public RegistrationRequestListResponse getRegistrationRequests() {
         return adminService.getRegistrationRequests();
+    }
+
+    @GetMapping("/shelters")
+    public ShelterListResponse getShelters() {
+        return adminService.getShelters();
     }
 
     @PostMapping("/registration-requests/{registrationRequestId}/approve")

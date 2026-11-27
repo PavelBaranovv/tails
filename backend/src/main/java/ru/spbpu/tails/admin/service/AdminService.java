@@ -9,6 +9,9 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.spbpu.tails.admin.dto.response.ApproveRegistrationResponse;
 import ru.spbpu.tails.admin.dto.response.RegistrationRequestListResponse;
 import ru.spbpu.tails.admin.dto.response.RegistrationRequestResponse;
+import ru.spbpu.tails.admin.dto.response.ShelterListResponse;
+import ru.spbpu.tails.admin.repository.AdminShelterRepository;
+import ru.spbpu.tails.common.entity.AnimalStatus;
 import ru.spbpu.tails.common.entity.RegistrationStatus;
 import ru.spbpu.tails.common.entity.Shelter;
 import ru.spbpu.tails.common.entity.ShelterRegistrationRequest;
@@ -21,12 +24,15 @@ public class AdminService {
 
     private final ShelterRegistrationRequestRepository registrationRequestRepository;
     private final ShelterRepository shelterRepository;
+    private final AdminShelterRepository adminShelterRepository;
 
     public AdminService(
             ShelterRegistrationRequestRepository registrationRequestRepository,
-            ShelterRepository shelterRepository) {
+            ShelterRepository shelterRepository,
+            AdminShelterRepository adminShelterRepository) {
         this.registrationRequestRepository = registrationRequestRepository;
         this.shelterRepository = shelterRepository;
+        this.adminShelterRepository = adminShelterRepository;
     }
 
     @Transactional(readOnly = true)
@@ -38,6 +44,13 @@ public class AdminService {
                 .toList();
 
         return new RegistrationRequestListResponse(requests);
+    }
+
+    @Transactional(readOnly = true)
+    public ShelterListResponse getShelters() {
+        return new ShelterListResponse(
+                adminShelterRepository.findAllWithAnimalsCountByStatus(
+                        AnimalStatus.AVAILABLE));
     }
 
     @Transactional
