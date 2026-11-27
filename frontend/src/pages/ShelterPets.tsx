@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import {
+  createPet,
+  deletePet,
+  getPet,
   listShelterPets,
   markPetAdopted,
   PET_STATUSES,
@@ -8,15 +11,18 @@ import {
   petSpeciesLabel,
   petStatusLabel,
   SPECIES,
+  updatePet,
   type PetStatus,
 } from "../api/pets"
 import type { Species } from "../api/animals"
 import FilterMenu from "./FilterMenu.tsx"
+import ShelterPetForm from "./ShelterPetForm.tsx"
 
 function ShelterPets() {
   const [status, setStatus] = useState<PetStatus | "ALL">("AVAILABLE")
   const [species, setSpecies] = useState<Species | "">("")
   const [openFilter, setOpenFilter] = useState<"status" | "species" | null>(null)
+  const [editor, setEditor] = useState<number | "new" | null>(null)
   const [version, setVersion] = useState(0)
   const filtersRef = useRef<HTMLDivElement>(null)
   const pets = listShelterPets(status, species)
@@ -34,6 +40,39 @@ function ShelterPets() {
   function adopt(id: number) {
     markPetAdopted(id)
     setVersion(version + 1)
+  }
+
+  function closeEditor() {
+    setEditor(null)
+  }
+
+  const editing = typeof editor === "number" ? getPet(editor) : null
+  if (editor !== null && (editor === "new" || editing)) {
+    return (
+      <section className="cabinet__panel">
+        <ShelterPetForm
+          key={editor}
+          pet={editing}
+          onCancel={closeEditor}
+          onDelete={() => {
+            if (editing) {
+              deletePet(editing.id)
+            }
+            setVersion(version + 1)
+            closeEditor()
+          }}
+          onSave={(input) => {
+            if (editing) {
+              updatePet(editing.id, input)
+            } else {
+              createPet(input)
+            }
+            setVersion(version + 1)
+            closeEditor()
+          }}
+        />
+      </section>
+    )
   }
 
   return (
@@ -71,7 +110,7 @@ function ShelterPets() {
             ]}
           />
         </div>
-        <button type="button" className="pets__add">
+        <button type="button" className="pets__add" onClick={() => setEditor("new")}>
           Добавить нового питомца
         </button>
       </div>
@@ -82,8 +121,8 @@ function ShelterPets() {
           <ul className="pets__list">
             {pets.map((pet) => (
               <li key={pet.id} className="pets__row">
-                {pet.photoUrl ? (
-                  <img src={pet.photoUrl} alt="" />
+                {pet.photoUrls[0] ? (
+                  <img src={pet.photoUrls[0]} alt="" />
                 ) : (
                   <span className="pets__photo" />
                 )}
@@ -101,7 +140,9 @@ function ShelterPets() {
                   <button type="button" onClick={() => adopt(pet.id)}>
                     Приютили
                   </button>
-                  <button type="button">Редактировать</button>
+                  <button type="button" onClick={() => setEditor(pet.id)}>
+                    Редактировать
+                  </button>
                 </div>
               </li>
             ))}
