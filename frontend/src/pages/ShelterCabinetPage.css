@@ -33,6 +33,114 @@
   background: #fff;
 }
 
+.pets__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.pets__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.pets__add,
+.pets__actions button {
+  border-radius: 999px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.pets__add,
+.pets__actions button:first-child {
+  padding: 8px 14px;
+  border: 0;
+  background: #3f6b46;
+  color: #fff;
+}
+
+.pets__actions button:last-child {
+  padding: 8px 14px;
+  border: 1.5px solid #8aa57c;
+  background: #fff;
+  color: #3f6b32;
+}
+
+.pets__list {
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+}
+
+.pets__row {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.pets__row + .pets__row {
+  border-top: 1px solid #eeeae4;
+}
+
+.pets__row img,
+.pets__photo {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #eee;
+}
+
+.pets__info h2 {
+  margin: 0 0 6px;
+  font-size: 20px;
+}
+
+.pets__facts {
+  display: grid;
+  grid-template-columns: 5.5rem 8.75rem minmax(8rem, 1.3fr) minmax(8rem, 1.2fr) 5.75rem;
+  gap: 4px 12px;
+  margin: 0;
+  color: #4a4a4a;
+}
+
+.pets__facts span {
+  min-width: 0;
+}
+
+.pets__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pets__empty {
+  margin: 0;
+  padding: 28px 16px;
+  color: #6b6560;
+}
+
+@media (max-width: 720px) {
+  .pets__row {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  .pets__actions {
+    grid-column: 1 / -1;
+  }
+
+  .pets__facts {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media (max-width: 640px) {
   .cabinet {
     padding: 18px 16px 40px;
