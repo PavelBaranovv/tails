@@ -1,5 +1,6 @@
 import { Navigate, NavLink, useParams } from "react-router-dom"
 import SiteHeader from "./SiteHeader.tsx"
+import ShelterApplications from "./ShelterApplications.tsx"
 import ShelterPets from "./ShelterPets.tsx"
 import "./ShelterCabinetPage.css"
 
@@ -36,6 +37,8 @@ function ShelterCabinetPage() {
         </nav>
         {current.id === "pets" ? (
           <ShelterPets />
+        ) : current.id === "applications" ? (
+          <ShelterApplications />
         ) : (
           <section className="cabinet__panel" aria-label={current.label} />
         )}
