@@ -1,10 +1,21 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, useLocation, useParams } from "react-router-dom"
 import { ageInMonths, formatAge, getAnimal, sexLabel, speciesLabel } from "../api/animals"
 import SiteHeader from "./SiteHeader.tsx"
 import "./AnimalPage.css"
 
 function AnimalPage() {
   const params = useParams()
+  const location = useLocation()
+  const backTo =
+    location.state?.backTo === "/shelter/applications" || location.state?.backTo === "/shelter/pets"
+      ? location.state.backTo
+      : "/"
+  const backLabel =
+    backTo === "/shelter/applications"
+      ? "← Назад к заявкам"
+      : backTo === "/shelter/pets"
+        ? "← Назад к питомцам"
+        : "← Назад к каталогу"
   const animal = getAnimal(Number(params.id))
 
   if (!animal) {
@@ -13,7 +24,7 @@ function AnimalPage() {
         <SiteHeader />
         <main className="profile">
           <p>Животное не найдено.</p>
-          <Link to="/">Назад к каталогу</Link>
+          <Link to={backTo}>{backLabel}</Link>
         </main>
       </div>
     )
@@ -25,8 +36,8 @@ function AnimalPage() {
     <div className="catalog-page">
       <SiteHeader />
       <main className="profile">
-        <Link className="profile__back" to="/">
-          ← Назад к каталогу
+        <Link className="profile__back" to={backTo}>
+          {backLabel}
         </Link>
         <div className="profile__top">
           <div className="profile__gallery">
@@ -61,7 +72,7 @@ function AnimalPage() {
                 <p>{animal.description}</p>
               </div>
             )}
-            <Link className="profile__adopt" to={`/animals/${animal.id}/apply`}>
+            <Link className="profile__adopt" to={`/animals/${animal.id}/apply`} state={location.state}>
               Приютить
             </Link>
           </section>

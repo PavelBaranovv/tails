@@ -53,9 +53,9 @@
   border-color: #5d8a45;
 }
 
-.login__notice {
+.login__error {
   margin: 0;
-  color: #6b6560;
+  color: #9b2c2c;
   line-height: 1.45;
 }
 
@@ -77,6 +77,17 @@
 
 .login button:active {
   background: #28462d;
+}
+
+.login__register {
+  margin: 16px 0 0;
+  color: #6b6560;
+  font-size: 14px;
+  text-align: center;
+}
+
+.login__register a {
+  color: #3f6b32;
 }
 
 @media (max-width: 640px) {

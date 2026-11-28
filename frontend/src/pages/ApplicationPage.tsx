@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useLocation, useParams } from "react-router-dom"
 import { createApplication, type Application } from "../api/applications"
 import {
   ageInMonths,
@@ -14,6 +14,7 @@ import "./ApplicationPage.css"
 
 function ApplicationPage() {
   const params = useParams()
+  const location = useLocation()
   const animal = getAnimal(Number(params.id))
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
@@ -80,7 +81,7 @@ function ApplicationPage() {
     <div className="application-page">
       <SiteHeader />
       <main className="application">
-        <Link className="application__back" to={`/animals/${animal.id}`}>
+        <Link className="application__back" to={`/animals/${animal.id}`} state={location.state}>
           ← Назад к профилю животного
         </Link>
         <section className="application__card">
@@ -114,7 +115,9 @@ function ApplicationPage() {
             {error && <p className="application__error">{error}</p>}
             <div className="application__actions">
               <button type="submit">Отправить заявку</button>
-              <Link to={`/animals/${animal.id}`}>Отмена</Link>
+              <Link to={`/animals/${animal.id}`} state={location.state}>
+                Отмена
+              </Link>
             </div>
           </form>
         </section>
